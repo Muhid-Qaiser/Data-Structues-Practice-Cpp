@@ -1,0 +1,237 @@
+#include<iostream>
+using namespace std;
+class Node
+{
+public:
+	int data;
+	Node* next;
+	Node* prev;
+	Node(int data)
+	{
+		 this->data = data;
+		this->next = nullptr;
+		this->prev = nullptr;
+	}
+};
+class List {
+public:
+	Node* head;
+	Node* prev;
+	List()
+	{
+		this->head = nullptr;
+		
+	}
+	void insertathead(int data)
+	{
+		Node* temp = new Node(data);
+		if (head != nullptr)
+		{
+			temp->next = head;
+			head = temp;
+		}
+		else
+		{
+			head = temp;
+
+		}
+	}
+	void dinsertathead(int data)
+	{
+		Node* temp = new Node(data);
+		if (head != nullptr)
+		{
+			temp->next = head;
+			head->prev = temp;
+			head = temp;
+			
+		}
+		else
+		{
+			head = temp;
+		}
+	}
+
+	void insertatlast(int data)
+	{
+		Node* temp = new Node(data);
+		Node* tail;
+		if (head != nullptr)
+		{
+			tail = head;
+			while (tail != nullptr)
+			{
+				if (tail->next == nullptr)
+				{
+					tail->next = temp;
+					temp->prev = tail;
+					return;
+				}
+				else
+				{
+					tail = tail->next;
+				}
+			}
+		}
+		else
+		{
+			head = temp;
+		}
+	}
+	void dinsertatlast(int data)
+	{
+		Node* temp = new Node(data);
+		Node* tail;
+		if (head != nullptr)
+		{
+			tail = head;
+			while (tail != nullptr)
+			{
+				if (tail->next == nullptr)
+				{
+					tail->next = temp;
+				
+					return;
+				}
+				else
+				{
+					tail = tail->next;
+				}
+			}
+		}
+		else
+		{
+			head = temp;
+		}
+	}
+	void insertatpos(int data, int pos)
+	{
+		Node* temp = new Node(data);
+		Node* pre = head;
+		if (pos == 0)
+		{
+			temp->next = head;
+			head = temp;
+			return;
+		}
+		else
+		{
+			for (int i = 0; i < pos - 1; i++)
+			{
+				pre = pre->next;
+			}
+			temp->next = pre -> next;
+			pre->next = temp;
+
+		}
+	}
+	void dinsertatpos(int data, int pos)
+	{
+		Node* temp = new Node(data);
+		Node* pre = head;
+		if (pos == 0)
+		{
+			temp->next = head;
+			head->prev = temp;
+			head = temp;
+			return;
+		}
+		else
+		{
+			for (int i = 0; i < pos - 1; i++)
+			{
+				pre = pre->next;
+			}
+			temp->next = pre->next;
+			pre->next = temp;
+			temp->next->prev = temp;
+		}
+	}
+	void dremove(int pos)
+	{
+		Node* pre = head;
+		if (pos == 0)
+		{
+			head = head->next;
+			head->prev = nullptr;
+			delete pre;
+
+			return;
+		}
+		else
+		{
+			for (int i = 0; i < pos - 1; i++)
+			{
+				pre = pre->next;
+			} 
+			/*Node* temp;
+			temp = pre->next;
+			delete temp;*/
+			pre->next = pre->next->next;
+			pre->next->prev = pre;
+		}
+	}
+	void remove(int pos)
+	{
+		Node* pre = head;
+		if (pos == 0)
+		{
+			head = head->next;
+			delete pre;
+
+			return;
+		}
+		else
+		{
+			for (int i = 0; i < pos - 1; i++)
+			{
+				pre = pre->next;
+			}
+			Node* temp;
+			temp = pre->next;
+			delete temp;
+			pre->next = pre->next->next;
+
+		}
+	}
+	void reverse()
+	{
+		Node* cur = head;
+		Node* pre = nullptr;
+		while (cur != nullptr)
+		{
+			Node* temp = cur->next;
+			cur->next = pre;
+			pre = cur;
+			cur = temp;
+		}
+		head = pre;
+	}
+	void print()
+	{
+		Node* temp;
+		temp = head;
+		while (temp != nullptr)
+		{
+			cout << temp->data << endl;
+			temp = temp->next;
+		}
+
+	}
+};
+int main()
+{
+	List l1;
+	int j = 0;
+	cout << "Enter how many" << endl;
+	cin >> j;
+	for (int i = 0; i < j; i++)
+	{
+		cout << "ENter data" << endl;
+		int data;
+		cin >> data;
+		l1.dinsertatlast(data);
+	}
+	l1.dinsertatpos(9,3);
+	l1.print();
+}
